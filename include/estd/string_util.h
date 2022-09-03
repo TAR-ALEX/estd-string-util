@@ -12,5 +12,14 @@ namespace estd {
             }
             return str;
         }
+        static std::string indent(std::string input, std::string indentation) {
+            std::string output = "";
+            for (size_t i = 0; i < input.length(); i++) {
+                if (i == 0) { output += indentation; }
+                output += input[i];
+                if (input[i] == '\n' && i < input.length() - 1) { output += indentation; }
+            }
+            return output;
+        }
     } // namespace string_util
 } // namespace estd
