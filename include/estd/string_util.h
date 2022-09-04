@@ -31,9 +31,9 @@ namespace estd {
                 auto const d = static_cast<std::uint8_t>(c);
                 if (d > 127) {
                     result << "\\";
-                    result << +('0' + ((d >> 6) & 0x07));
-                    result << +('0' + ((d >> 3) & 0x07));
-                    result << +('0' + ((d >> 0) & 0x07));
+                    result << char('0' + ((d >> 6) & 0x07));
+                    result << char('0' + ((d >> 3) & 0x07));
+                    result << char('0' + ((d >> 0) & 0x07));
                     continue;
                 }
 
@@ -82,7 +82,7 @@ namespace estd {
 
         static std::string unescape_string(std::string const& str) {
             std::ostringstream result;
-            for (int i = 0; i < str.length(); i++) {
+            for (int i = 0; i < str.length(); i += 2) {
                 std::string sub = str.substr(i, 2);
                 if (sub == "\\a") {
                     result << '\a';
@@ -105,7 +105,7 @@ namespace estd {
                 } else if (sub == "\\\'") {
                     result << '\'';
                 } else if (str.substr(i, 1) == "\\") {
-                    if (i + 1 >= str.size()) throw std::runtime_error("bad string escape sequence");
+                    if (i + 1 > str.length()) throw std::runtime_error("bad string escape sequence");
                     std::string octStr = str.substr(i + 1, 3);
                     uint16_t octVal = 0;
                     if (octStr.length() >= 1) {
@@ -113,19 +113,22 @@ namespace estd {
                             throw std::runtime_error("bad string escape sequence (not an octal value)");
                         octVal += octStr[0] - '0';
                     }
-                    if (octStr.length() >= 2 && (octStr[1] > '7' || octStr[1] < '0')) {
+                    if (octStr.length() >= 2 && octStr[1] <= '7' && octStr[1] >= '0') {
                         octVal <<= 3;
-                        octVal += octStr[0] - '0';
+                        octVal += octStr[1] - '0';
+                        i++;
                     }
-                    if (octStr.length() >= 3 && (octStr[2] > '7' || octStr[2] < '0')) {
+                    if (octStr.length() >= 3 && octStr[2] <= '7' && octStr[2] >= '0') {
                         octVal <<= 3;
-                        octVal += octStr[0] - '0';
+                        octVal += octStr[2] - '0';
+                        i++;
                     }
                     if (octVal > 0x00FF)
                         throw std::runtime_error("bad string escape sequence (octal value exceeds 256)");
-                    result << (char)octVal;
+                    result << (char)(octVal & 0xFF);
                 } else {
                     result << sub[0];
+                    i--;
                 }
             }
             return result.str();
