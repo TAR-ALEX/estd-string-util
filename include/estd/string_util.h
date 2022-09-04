@@ -124,6 +124,8 @@ namespace estd {
                     if (octVal > 0x00FF)
                         throw std::runtime_error("bad string escape sequence (octal value exceeds 256)");
                     result << (char)octVal;
+                } else {
+                    result << sub[0];
                 }
             }
             return result.str();
