@@ -72,6 +72,8 @@ namespace estd {
                     case 31: result << "\\037"; break;
                     case 127: result << "\\038"; break;
                     case '\\': result << "\\\\"; break;
+                    case '\"': result << "\\\""; break;
+                    case '\'': result << "\\\'"; break;
                     default: result << c;
                 }
             }
@@ -98,6 +100,10 @@ namespace estd {
                     result << '\r';
                 } else if (sub == "\\\\") {
                     result << '\\';
+                } else if (sub == "\\\"") {
+                    result << '\"';
+                } else if (sub == "\\\'") {
+                    result << '\'';
                 } else if (str.substr(i, 1) == "\\") {
                     if (i + 1 >= str.size()) throw std::runtime_error("bad string escape sequence");
                     std::string octStr = str.substr(i + 1, 3);
