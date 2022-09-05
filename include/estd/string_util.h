@@ -5,7 +5,7 @@
 
 namespace estd {
     namespace string_util {
-        static std::string replace_all(std::string str, const std::string& from, const std::string& to) {
+        inline static std::string replace_all(std::string str, const std::string& from, const std::string& to) {
             size_t start_pos = 0;
             while ((start_pos = str.find(from, start_pos)) != std::string::npos) {
                 str.replace(start_pos, from.length(), to);
@@ -13,7 +13,7 @@ namespace estd {
             }
             return str;
         }
-        static std::string indent(std::string input, std::string indentation) {
+        inline static std::string indent(std::string input, std::string indentation) {
             std::string output = "";
             for (size_t i = 0; i < input.length(); i++) {
                 if (i == 0) { output += indentation; }
@@ -24,7 +24,7 @@ namespace estd {
         }
 
         // inspired by https://github.com/bebuch/io_tools
-        static std::string escape_string(std::string const& str) {
+        inline static std::string escape_string(std::string const& str) {
             std::ostringstream result;
             for (auto c : str) {
                 // Mask any UTF-8 characters
@@ -80,7 +80,7 @@ namespace estd {
             return result.str();
         }
 
-        static std::string unescape_string(std::string const& str) {
+        inline static std::string unescape_string(std::string const& str) {
             std::ostringstream result;
             for (int i = 0; i < str.length(); i += 2) {
                 std::string sub = str.substr(i, 2);
