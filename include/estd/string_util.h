@@ -82,7 +82,7 @@ namespace estd {
 
         inline static std::string unescape_string(std::string const& str) {
             std::ostringstream result;
-            for (int i = 0; i < str.length(); i += 2) {
+            for (size_t i = 0; i < str.length(); i += 2) {
                 std::string sub = str.substr(i, 2);
                 if (sub == "\\a") {
                     result << '\a';
