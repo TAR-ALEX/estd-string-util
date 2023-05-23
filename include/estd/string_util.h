@@ -63,6 +63,19 @@ namespace estd {
             return res;
         }
 
+        template<class T>
+        inline static std::string joinAll(
+            T container, std::string delimiter = " ", bool includeEmpty = true
+        ) {
+            std::string res = "";
+            for(std::string& str: container){
+                if(str == "" && !includeEmpty) continue;
+                if(res != "") res += delimiter;
+                res += str;
+            }
+            return res;
+        }
+
         inline static std::string fileToString(std::string path) {
             std::ifstream file(path);
             std::stringstream buffer;
