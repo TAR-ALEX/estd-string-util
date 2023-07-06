@@ -45,6 +45,26 @@ namespace estd {
             return str.find(token) != std::string::npos;
         }
 
+        inline static bool containsAny(std::string str, std::vector<std::string> t, bool ignoreCase = false) {
+            for(auto token : t){
+                if (contains(str, token, ignoreCase)) return true;
+            }
+            return false;
+        }
+
+        inline static bool equalsAny(std::string str, std::vector<std::string> t, bool ignoreCase = false){
+            for(auto token : t){
+                if (ignoreCase) {
+                    token = toLower(token);
+                    str = toLower(str);
+                }
+                if (str == token){
+                    return true;
+                }
+            }
+            return false;
+        }
+
         inline static std::vector<std::string> splitAll(
             std::string s, std::string delimiter = " ", bool includeEmpty = true
         ) {
