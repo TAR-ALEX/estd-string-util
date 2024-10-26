@@ -242,5 +242,11 @@ namespace estd {
             const std::set whitespace = {' ', '\t', '\n', '\v', '\f', '\r'};
             return whitespace.count(c);
         }
+
+        inline bool is_uint(const std::string& s) {
+            std::string::const_iterator it = s.begin();
+            while (it != s.end() && std::isdigit(*it)) ++it;
+            return !s.empty() && it == s.end();
+        }
     } // namespace string_util
 } // namespace estd
